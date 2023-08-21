@@ -6,8 +6,8 @@
 
 APIKEY=`cat $HOME/.owm-key`
 # if you leave these empty location will be picked based on your ip-adres
-CITY_NAME='Rome'
-COUNTRY_CODE='IT'
+CITY_NAME="West Lafayette"
+COUNTRY_CODE="US"
 # Desired output language
 LANG="en"
 # UNITS can be "metric", "imperial" or "kelvin". Set KNOTS to "yes" if you
@@ -19,7 +19,7 @@ LANG="en"
 # imperial | Fahrenheit  | miles/hour
 # kelvin   | Kelvin      | km/h
 
-UNITS="metric"
+UNITS="imperial"
 
 # Color Settings ______________________________________________________________
 
@@ -216,36 +216,6 @@ function setIcons {
     WIND=""
     WINDFORCE=`echo "$RESPONSE" | jq .wind.speed`
     WINDICON=""
-    if [ $BEAUFORTICON == "yes" ];then
-        WINDFORCE2=`echo "scale=$DECIMALS;$WINDFORCE * 3.6 / 1" | bc`
-        if [ $WINDFORCE2 -le 1 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 1 ] && [ $WINDFORCE2 -le 5 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 5 ] && [ $WINDFORCE2 -le 11 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 11 ] && [ $WINDFORCE2 -le 19 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 19 ] && [ $WINDFORCE2 -le 28 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 28 ] && [ $WINDFORCE2 -le 38 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 38 ] && [ $WINDFORCE2 -le 49 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 49 ] && [ $WINDFORCE2 -le 61 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 61 ] && [ $WINDFORCE2 -le 74 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 74 ] && [ $WINDFORCE2 -le 88 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 88 ] && [ $WINDFORCE2 -le 102 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 102 ] && [ $WINDFORCE2 -le 117 ]; then
-            WINDICON=""
-        elif [ $WINDFORCE2 -gt 117 ]; then
-            WINDICON=""
-        fi
-    fi
     if [ $KNOTS = "yes" ]; then
         case $UNITS in
             "imperial") 
@@ -280,13 +250,7 @@ function setIcons {
         fi
         WIND="$WIND |"
     fi
-    if [ "$UNITS" = "metric" ]; then
-        TEMP_ICON="󰔄"
-    elif [ "$UNITS" = "imperial" ]; then
-        TEMP_ICON="󰔅"
-    else
-        TEMP_ICON="󰔆"
-    fi
+    TEMP_ICON="󰔅"
     
     TEMP=`echo "$TEMP" | cut -d "." -f 1`
     
@@ -300,7 +264,9 @@ function setIcons {
 }
 
 function outputCompact {
-    OUTPUT="$WIND %{T$WEATHER_FONT_CODE}%{F$ICON_COLOR}$ICON%{F-}%{T-} $ERR_MSG$COLOR_TEXT_BEGIN$DESCRIPTION$COLOR_TEXT_END| $TEMP"
+    # OUTPUT="$WIND%{T$WEATHER_FONT_CODE}%{F$ICON_COLOR}$ICON%{F-}%{T-} $ERR_MSG$COLOR_TEXT_BEGIN$DESCRIPTION$COLOR_TEXT_END| $TEMP"
+    OUTPUT="$WIND%{T$WEATHER_FONT_CODE}%{F$ICON_COLOR}$ICON%{F-}%{T-} $ERR_MSG$COLOR_TEXT_BEGIN$DESCRIPTION$COLOR_TEXT_END%{F#A8A9AD}|%{F-} $TEMP"
+
     # echo "Output: $OUTPUT" >> "$HOME/.weather.log"
     echo "$OUTPUT"
 }
